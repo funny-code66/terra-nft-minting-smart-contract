@@ -85,6 +85,7 @@ jobs:
           cd cw721-base
           cargo clean
           cargo build --release
+          cd ../..
 
       - name: deploy to testnet
         run: |
