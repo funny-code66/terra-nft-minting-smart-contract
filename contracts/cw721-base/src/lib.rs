@@ -3,7 +3,6 @@ mod contract_tests;
 mod error;
 mod execute;
 mod execute2;
-pub mod helpers;
 pub mod msg;
 mod query;
 mod query2;
