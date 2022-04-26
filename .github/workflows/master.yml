@@ -1,0 +1,102 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Basic
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+
+  build:
+    name: Build Suite
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/cache@v3
+        with:
+          path: |
+            /home/runner/.cargo/bin/
+            /home/runner/.cargo/registry/index/
+            /home/runner/.cargo/registry/cache/
+            /home/runner/.cargo/git/db/
+            target/
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+          
+      - uses: actions/cache@v3
+        with:
+          path: /usr/bin/docker
+          key: ${{ runner.os }}-docker-
+
+      - uses: actions/cache@v3
+        with:
+          path: /home/runner/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Checkout sources
+        uses: actions/checkout@v2
+
+      - name: Install stable toolchain
+        run: |
+          # rustup default stable
+
+          # add wasm as compilation target
+          rustup target add wasm32-unknown-unknown
+
+      #    # for generating contract
+      #     cargo install cargo-generate --features vendored-openssl
+      #     cargo install cargo-run-script
+
+      # - name: github-actions-nodejs
+        # You may pin to the exact commit or the version.
+        # uses: thonatos/github-actions-nodejs@50c6667f26d2aaa41206e1d43c58682913ad6d71
+      #   uses: thonatos/github-actions-nodejs@v0.1.1
+
+      # - name: setup-docker
+        # You may pin to the exact commit or the version.
+        # uses: docker-practice/actions-setup-docker@9fafeb38361d5d48e5afc207293715e023b6cfe0
+        # uses: docker-practice/actions-setup-docker@1.0.9
+
+
+      - name: setup-rust-optimizer
+        # You may pin to the exact commit or the version.
+        # uses: docker-practice/actions-setup-docker@9fafeb38361d5d48e5afc207293715e023b6cfe0
+        run: docker pull cosmwasm/rust-optimizer:0.12.5
+
+      - name: setup-terrain
+        run: |
+          npm i -g @terra-money/terrain
+
+      - name: deploy to testnet
+        run: |
+          terrain deploy cw721-base --signer custom_tester_1 --network testnet --set-signer-as-admin
+          terrain sync-refs
+
+  test:
+    name: Test Suite
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: setup-terrain
+        run: |
+          uname -s # kernel name
+          uname -r # kernel release
+          uname -v # kernel version
+          uname -n # network node hostname
+          uname -m # machine hardware architecture
+          uname -p # processor type
+          uname -i # hardware platform
+          uname -o # os info
+          uname -o # os info
+          lshw # hardware info
+
