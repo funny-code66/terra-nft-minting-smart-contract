@@ -1,0 +1,529 @@
+{
+  "environment": {
+    "presale wallet limit": 2,
+    "wallet limit": 4,
+    "freemint limit": 1,
+    "cost": "0.1x"
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  "process: predefine metadata": [
+    {
+      "message": "check if metadata exists",
+      "type": "query",
+      "response": false,
+      "command": {
+        "get_extension": {
+          "token_id": "1"
+        }
+      }
+    },
+    {
+      "message": "add metadata",
+      "type": "execute",
+      "command": {
+        "add_extension": {
+          "token_id": "1",
+          "extension": {
+            "image": "aaa"
+          }
+        }
+      },
+      "response": false
+    },
+    {
+      "message": "check if metadata exists",
+      "type": "query",
+      "response": false,
+      "command": {
+        "get_extension": {
+          "token_id": "1"
+        }
+      }
+    }
+  ],
+  ///////////////////////////////////////////////////////////////////////////
+  "process: whitelist work check": [
+    {
+      "message": "check if exist on whitelist",
+      "type": "query",
+      "command": {
+        "is_on_whitelist": {
+          "member": "terra109rgfl6x8v6k29dtfpc4kxq9tl08lly73wgjzg"
+        }
+      },
+      "response": false
+    },
+    {
+      "message": "check if can mint",
+      "type": "execute",
+      "note": "b: 0.125$LUNA",
+      "command": {
+        "mint": {
+          "token_num": "b",
+          "owner": "terra109rgfl6x8v6k29dtfpc4kxq9tl08lly73wgjzg"
+        }
+      },
+      "response": "Unauthorized error"
+    },
+    {
+      "message": "check if add to whitelist",
+      "type": "execute",
+      "note": "check with another wallet: terra10hcrj0tlum8nkk2apz3v6y0vrdd8k9murs9vfy",
+      "command": {
+        "add_whitelist": {
+          "member": "terra109rgfl6x8v6k29dtfpc4kxq9tl08lly73wgjzg"
+        }
+      },
+      "response": "Not a minter error"
+    },
+    {
+      "message": "add to whitelist",
+      "type": "execute",
+      "note": "should be minter: terra109rgfl6x8v6k29dtfpc4kxq9tl08lly73wgjzg",
+      "command": {
+        "add_whitelist": {
+          "member": "terra109rgfl6x8v6k29dtfpc4kxq9tl08lly73wgjzg"
+        }
+      }
+    },
+    {
+      "message": "check if exist on whitelist",
+      "type": "query",
+      "command": {
+        "is_on_whitelist": {
+          "member": "terra109rgfl6x8v6k29dtfpc4kxq9tl08lly73wgjzg"
+        }
+      },
+      "response": true
+    },
+    {
+      "message": "add to whitelist",
+      "type": "execute",
+      "note": "should be minter: terra109rgfl6x8v6k29dtfpc4kxq9tl08lly73wgjzg",
+      "command": {
+        "add_whitelist": {
+          "member": "terra10hcrj0tlum8nkk2apz3v6y0vrdd8k9murs9vfy"
+        }
+      }
+    },
+    {
+      "message": "check if exist on whitelist",
+      "type": "query",
+      "command": {
+        "is_on_whitelist": {
+          "member": "terra10hcrj0tlum8nkk2apz3v6y0vrdd8k9murs9vfy"
+        }
+      },
+      "response": true
+    },
+    {
+      "message": "metadata",
+      "type": "process: predefine metadata"
+    },
+    {
+      "message": "check if can mint",
+      "type": "execute",
+      "note": "b: 0.125$LUNA",
+      "command": {
+        "mint": {
+          "token_num": "b",
+          "owner": "terra109rgfl6x8v6k29dtfpc4kxq9tl08lly73wgjzg"
+        }
+      },
+      "response": ""
+    },
+    ////// BEGIN: get result
+    {
+      "message": "token info of minted token_id",
+      "type": "query",
+      "command": {
+        "nft_info": {
+          "token_id": "1"
+        }
+      },
+      "response": {
+        "token_uri": "ipfs://QmRiLKmhizpnwqpHGeiJnL4G6fsPAxdEdCiDkuJpt7xHPH/1.json",
+        "extension": {
+          "image": "aaa",
+          "image_data": null,
+          "external_url": null,
+          "description": null,
+          "name": null,
+          "attributes": null,
+          "background_color": null,
+          "animation_url": null,
+          "youtube_url": null
+        }
+      }
+    },
+    {
+      "message": "get owner and approval of minted token_id",
+      "type": "query",
+      "command": {
+        "owner_of": {
+          "token_id": "1"
+        }
+      },
+      "response": {
+        "owner": "terra109rgfl6x8v6k29dtfpc4kxq9tl08lly73wgjzg",
+        "approvals": []
+      }
+    },
+    {
+      "message": "get tokens of owner",
+      "type": "query",
+      "command": {
+        "tokens": {
+          "owner": "terra109rgfl6x8v6k29dtfpc4kxq9tl08lly73wgjzg"
+        }
+      },
+      "response": {
+        "tokens": [
+          "1"
+        ]
+      }
+    },
+    {
+      "message": "get all tokens",
+      "type": "query",
+      "command": {
+        "all_tokens": {}
+      },
+      "response": {
+        "tokens": [
+          "1"
+        ]
+      }
+    },
+    ////// END: get_result
+    {
+      "message": "remove from whitelist",
+      "type": "execute",
+      "note": "should be minter",
+      "command": {
+        "remove_whitelist": {
+          "member": "terra109rgfl6x8v6k29dtfpc4kxq9tl08lly73wgjzg"
+        }
+      }
+    },
+    {
+      "message": "check if can mint",
+      "type": "execute",
+      "note": "b: 0.125$LUNA",
+      "command": {
+        "mint": {
+          "token_num": "b",
+          "owner": "terra109rgfl6x8v6k29dtfpc4kxq9tl08lly73wgjzg"
+        }
+      },
+      "response": "Unauthorized error"
+    }
+  ],
+  ///////////////////////////////////////////////////////////////////////////
+  "process: whitelist mint": [
+    {
+      "message": "check if exist on whitelist",
+      "type": "query",
+      "command": {
+        "is_on_whitelist": {
+          "member": "terra109rgfl6x8v6k29dtfpc4kxq9tl08lly73wgjzg"
+        }
+      },
+      "response": false
+    },
+    {
+      "message": "check if can mint",
+      "type": "execute",
+      "note": "b: 0.125$LUNA",
+      "command": {
+        "mint": {
+          "token_num": "b",
+          "owner": "terra109rgfl6x8v6k29dtfpc4kxq9tl08lly73wgjzg"
+        }
+      },
+      "response": "Unauthorized error"
+    },
+    {
+      "message": "add to whitelist",
+      "type": "execute",
+      "note": "should be minter",
+      "command": {
+        "add_whitelist": {
+          "member": "terra109rgfl6x8v6k29dtfpc4kxq9tl08lly73wgjzg"
+        }
+      }
+    },
+    {
+      "message": "check if exist on whitelist",
+      "type": "query",
+      "command": {
+        "is_on_whitelist": {
+          "member": "terra109rgfl6x8v6k29dtfpc4kxq9tl08lly73wgjzg"
+        }
+      },
+      "response": true
+    },
+    {
+      "message": "metadata",
+      "note": "token_id: 1",
+      "type": "process: predefine metadata"
+    },
+    {
+      "message": "mint",
+      "type": "execute",
+      "note": "b: 0.125$LUNA",
+      "command": {
+        "mint": {
+          "token_num": "b",
+          "owner": "terra109rgfl6x8v6k29dtfpc4kxq9tl08lly73wgjzg"
+        }
+      },
+      "response": ""
+    },
+    {
+      "message": "get balance",
+      "type": "query",
+      "command": {
+        "get_balance": {
+          "owner": "terra109rgfl6x8v6k29dtfpc4kxq9tl08lly73wgjzg"
+        }
+      },
+      "response": 1
+    },
+    {
+      "message": "check if can mint",
+      "type": "execute",
+      "note": "b: 0.125$LUNA, ",
+      "command": {
+        "mint": {
+          "token_num": "b",
+          "owner": ""
+        }
+      },
+      "response": "wallet balance limit error && token_id metadata not exist"
+    },
+    {
+      "message": "metadata",
+      "note": "token_id: 2",
+      "type": "process: predefine metadata"
+    },
+    {
+      "message": "mint with another wallet",
+      "type": "execute",
+      "note": "b: 0.125$LUNA",
+      "command": {
+        "mint": {
+          "token_num": "b",
+          "owner": "terra10hcrj0tlum8nkk2apz3v6y0vrdd8k9murs9vfy"
+        }
+      },
+      "response": "not on whitelist error"
+    },
+    {
+      "message": "add to whitelist",
+      "type": "execute",
+      "note": "should be minter",
+      "command": {
+        "add_whitelist": {
+          "member": "terra10hcrj0tlum8nkk2apz3v6y0vrdd8k9murs9vfy"
+        }
+      }
+    },
+    {
+      "message": "mint with another wallet",
+      "type": "execute",
+      "note": "b: 0.125$LUNA",
+      "command": {
+        "mint": {
+          "token_num": "b",
+          "owner": "terra10hcrj0tlum8nkk2apz3v6y0vrdd8k9murs9vfy"
+        }
+      },
+      "response": ""
+    },
+    {
+      "message": "get total minted",
+      "type": "query",
+      "command": {
+        "num_tokens": {}
+      },
+      "response": 2
+    }
+  ],
+  ///////////////////////////////////////////////////////////////////////////
+  "process: mint": [
+    {
+      "message": "remove from whitelist",
+      "type": "execute",
+      "note": "should be minter",
+      "command": {
+        "remove_whitelist": {
+          "member": "terra109rgfl6x8v6k29dtfpc4kxq9tl08lly73wgjzg"
+        }
+      }
+    },
+    {
+      "message": "metadata",
+      "note": "token_id: 3",
+      "type": "process: predefine metadata"
+    },
+    {
+      "message": "check if can mint",
+      "type": "execute",
+      "note": "b: 0.145$LUNA",
+      "command": {
+        "mint": {
+          "token_num": "b",
+          "owner": "terra109rgfl6x8v6k29dtfpc4kxq9tl08lly73wgjzg"
+        }
+      },
+      "response": ""
+    },
+    {
+      "message": "get balance",
+      "type": "query",
+      "command": {
+        "get_balance": {
+          "owner": "terra109rgfl6x8v6k29dtfpc4kxq9tl08lly73wgjzg"
+        }
+      },
+      "response": 2
+    },
+    {
+      "message": "metadata",
+      "note": "token_id: 4",
+      "type": "process: predefine metadata"
+    },
+    {
+      "message": "check if can mint",
+      "type": "execute",
+      "note": "b: 0.145$LUNA, ",
+      "command": {
+        "mint": {
+          "token_num": "b",
+          "owner": "terra109rgfl6x8v6k29dtfpc4kxq9tl08lly73wgjzg"
+        }
+      },
+      "response": "wallet balance limit error"
+    },
+    {
+      "message": "mint with another wallet",
+      "type": "execute",
+      "note": "b: 0.15$LUNA",
+      "command": {
+        "mint": {
+          "token_num": "a",
+          "owner": "terra10hcrj0tlum8nkk2apz3v6y0vrdd8k9murs9vfy"
+        }
+      },
+      "response": ""
+    },
+    {
+      "message": "check if can mint",
+      "type": "execute",
+      "note": "b: 0.125$LUNA, ",
+      "command": {
+        "mint": {
+          "token_num": "b",
+          "owner": ""
+        }
+      },
+      "response": "wallet balance limit error"
+    },
+    {
+      "message": "get total minted",
+      "type": "query",
+      "command": {
+        "num_tokens": {}
+      },
+      "response": 4
+    },
+    {
+      "message": "metadata",
+      "note": "token_id: 5",
+      "type": "process: predefine metadata"
+    },
+    {
+      "message": "mint with another wallet",
+      "type": "execute",
+      "note": "b: 0.15$LUNA",
+      "command": {
+        "mint": {
+          "token_num": "a",
+          "owner": "terra1dsxpz56r8m3kga773a8f8754r7y7jqs95lda4k"
+        }
+      },
+      "response": "total minted exceed error"
+    }
+  ],
+  ///////////////////////////////////////////////////////////////////////////
+  "process: freemint": [
+    {
+      "message": "freemint",
+      "type": "execute",
+      "note": "except minter",
+      "command": {
+        "free_mint": {
+          "owner": "terra1dsxpz56r8m3kga773a8f8754r7y7jqs95lda4k"
+        }
+      },
+      "response": "not minter error"
+    },
+    {
+      "message": "get balance",
+      "type": "query",
+      "command": {
+        "get_balance": {
+          "owner": "terra1dsxpz56r8m3kga773a8f8754r7y7jqs95lda4k"
+        }
+      },
+      "response": 1
+    },
+    {
+      "message": "metadata",
+      "note": "token_id: 6",
+      "type": "process: predefine metadata"
+    },
+    {
+      "message": "freemint",
+      "type": "execute",
+      "note": "minter",
+      "command": {
+        "free_mint": {
+          "owner": "terra109rgfl6x8v6k29dtfpc4kxq9tl08lly73wgjzg"
+        }
+      },
+      "response": "freemint limit exceed error"
+    }
+  ],
+  ///////////////////////////////////////////////////////////////////////////
+  "process: withdraw": [
+    {
+      "message": "check if can withdraw",
+      "type": "execute",
+      "note": "team, pro, treas",
+      "command": {
+        "withdraw": {}
+      },
+      "response": "error"
+    },
+    {
+      "message": "sign",
+      "type": "query",
+      "note": "team, pro, treas",
+      "command": {
+        "sign": {}
+      },
+      "response": ""
+    },
+    {
+      "message": "withdraw",
+      "type": "execute",
+      "note": "team, pro, treas",
+      "command": {
+        "withdraw": {}
+      },
+      "response": ""
+    }
+  ]
+}
