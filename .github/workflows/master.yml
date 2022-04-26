@@ -77,6 +77,15 @@ jobs:
         run: |
           npm i -g @terra-money/terrain
 
+      - name: clear old crate packages
+        run: |
+          cd contracts/cw721
+          cargo build --release
+          cd ..
+          cd cw721-base
+          cargo clean
+          cargo build --release
+
       - name: deploy to testnet
         run: |
           terrain deploy cw721-base --signer custom_tester_1 --network testnet --set-signer-as-admin
